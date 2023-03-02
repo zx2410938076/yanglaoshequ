@@ -80,6 +80,7 @@ public class UserController {
         int result = userMapper.insert(myUser);
         System.out.println(result);
 
+
     }
 
     @GetMapping ("/delete")
