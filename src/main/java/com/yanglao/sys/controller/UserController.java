@@ -79,8 +79,6 @@ public class UserController {
         System.out.println(myUser);
         int result = userMapper.insert(myUser);
         System.out.println(result);
-
-
     }
 
     @GetMapping ("/delete")
