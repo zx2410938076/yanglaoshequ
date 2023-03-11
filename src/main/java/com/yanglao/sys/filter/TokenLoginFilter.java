@@ -9,6 +9,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -18,6 +20,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -72,6 +75,7 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
      * @throws ServletException
      */
     @Override
+
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response
             , FilterChain chain, Authentication authResult) throws IOException, ServletException {
         // 生成Token信息
@@ -81,8 +85,13 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
         // 生成对应的Token信息
         String token = JWTUtils.getToken(map);
         // 需要把生成的Token信息响应给客户端
+        String roles = authResult.getAuthorities().toString();
+        roles = roles.substring(1, roles.length() - 1);
+
         response.addHeader("Authorization", SystemConstant.SYS_TOKEN_PREFIX +token);
         response.addHeader("Access-Control-Expose-Headers","Authorization");
+        response.addHeader("role", roles);
+        response.addHeader("Access-Control-Expose-Headers","role");
         response.setContentType("application/json;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
         PrintWriter writer = response.getWriter();

@@ -8,7 +8,7 @@ package com.yanglao.common.vo.constant;
 public class SystemConstant {
 
     // 认证Token的前缀
-    public static final String SYS_TOKEN_PREFIX = "boge";
+    public static final String SYS_TOKEN_PREFIX = "zx";
 
     public static final Integer USER_STATUS_DISABLE = 0; // 账号禁用
 
