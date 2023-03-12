@@ -5,11 +5,16 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yanglao.common.vo.Result;
 import com.yanglao.sys.entity.MyUser;
+import com.yanglao.sys.entity.Role;
+import com.yanglao.sys.mapper.RoleMapper;
 import com.yanglao.sys.mapper.UserMapper;
 import com.yanglao.sys.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,43 +33,44 @@ public class UserController {
     private IUserService userService;
 
     @GetMapping("/all")
-    public Result<List<MyUser>> getAllUser(){
+    public Result<List<MyUser>> getAllUser() {
         List<MyUser> list = userService.list();
-        return Result.success(list,"查询成功");
+        return Result.success(list, "查询成功");
     }
 
 
     //分页呈现
     @Autowired
     private UserMapper userMapper;
+
     @GetMapping("/paging")
-    public Result<Page<MyUser>> getAllUser1(long current, long size){
-        Page<MyUser> page = new Page<>(current,size);
+    public Result<Page<MyUser>> getAllUser1(long current, long size) {
+        Page<MyUser> page = new Page<>(current, size);
 
         System.out.println(page);
-         userMapper.selectPage(page,null);
+        userMapper.selectPage(page, null);
         System.out.println(page);
-        return Result.success(page,"查询成功");
+        return Result.success(page, "查询成功");
     }
 
     //按需查找
     @GetMapping("/serch")
-    public Result<Page<MyUser>> SerchUser1(long current, long size, String target){
-        Page<MyUser> page = new Page<>(current,size);
+    public Result<Page<MyUser>> SerchUser1(long current, long size, String target) {
+        Page<MyUser> page = new Page<>(current, size);
 
         QueryWrapper<MyUser> queryWrapper = new QueryWrapper<>();
         queryWrapper.like("username", target)
                 .or()
                 .eq("id", target);
-        userMapper.selectPage(page,queryWrapper);
+        userMapper.selectPage(page, queryWrapper);
         //System.out.println(page);
-        return Result.success(page,"查询成功");
+        return Result.success(page, "查询成功");
     }
 
     //@CrossOrigin
     //更新
     @PostMapping("/update")
-    public void UpdateUser(@RequestBody MyUser myUser){
+    public void UpdateUser(@RequestBody MyUser myUser) {
         System.out.println(myUser);
         //修改条件
         UpdateWrapper<MyUser> userUpdateWrapper = new UpdateWrapper<>();
@@ -75,20 +81,32 @@ public class UserController {
     }
 
     @PostMapping("/insert")
-    public void InsertUser(@RequestBody MyUser myUser){
+    public void InsertUser(@RequestBody MyUser myUser) {
         System.out.println(myUser);
         int result = userMapper.insert(myUser);
         System.out.println(result);
     }
 
-    @GetMapping ("/delete")
-    public void UpdateUser(Integer id){
+    @GetMapping("/delete")
+    public void UpdateUser(Integer id) {
         System.out.println(id);
         //修改条件
         UpdateWrapper<MyUser> userUpdateWrapper = new UpdateWrapper<>();
-        userUpdateWrapper.eq("id",id);
+        userUpdateWrapper.eq("id", id);
 
         int result = userMapper.delete(userUpdateWrapper);
         System.out.println(result);
     }
+
+
+    @GetMapping("/Reacquire")
+    public Result Reacquire(String username) {
+        System.out.println(username);
+        QueryWrapper<MyUser> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("username", username);
+        List a =  userMapper.selectList(queryWrapper);
+        //System.out.println(page);
+        return Result.success(a, "查询成功");
+    }
 }
+
