@@ -5,10 +5,10 @@ package com.yanglao.sys.service.impl;
 
 
 
-import com.yanglao.sys.entity.MyUser;
-import com.yanglao.sys.entity.Role;
-import com.yanglao.sys.service.IRoleService;
-import com.yanglao.sys.service.IUserService;
+
+import com.yanglao.sys.entity.SysUser;
+
+import com.yanglao.sys.service.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -28,10 +28,8 @@ import java.util.List;
 public class UserDetailServiceImpl implements UserDetailsService {
 
     @Autowired
-    IUserService UserService;
+    ISysUserService UserService;
 
-    @Autowired
-    IRoleService RoleService;
 
     /**
      * 完成账号的校验
@@ -42,20 +40,22 @@ public class UserDetailServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         // 1.需要根据账号查询
-        List<MyUser> list = UserService.queryByUserName(username);
+        List<SysUser> list = UserService.queryByUserName(username);
         if(list != null && list.size() == 1){
             // 账号是存在的
-            MyUser MyUser= list.get(0);
+            SysUser SysUser= list.get(0);
             // 根据当前登录的账号查询到关联的角色信息
-            List<Role> Roles = RoleService.queryByUserId(MyUser.getId());
             List<GrantedAuthority> listRole = new ArrayList<>();
-            if(Roles != null && Roles.size() > 0){
-                for (Role Role : Roles) {
-                    listRole.add(new SimpleGrantedAuthority(Role.getRoleName()));
-                }
+            if(SysUser.getAuthority() == null)
+            {
+                listRole.add(new SimpleGrantedAuthority("user"));
+            }else{
+                listRole.add(new SimpleGrantedAuthority(SysUser.getAuthority()));
             }
+
+
             // 密码模拟的是就数据库查询出来
-            return new User(MyUser.getUsername(), MyUser.getPassword(),listRole);
+            return new User(SysUser.getUserName(), SysUser.getUserPassword(),listRole);
         }
         return null;
     }

@@ -5,11 +5,10 @@ spring:
   datasource:
     username: root
     password: zx1234
-    url: jdbc:mysql:///xdb
+    url: jdbc:mysql:///yanglaoshequ
   redis:
     port: 6379
     host: localhost
 logging:
   level:
     com.yanglao: debug
-

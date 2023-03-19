@@ -3,14 +3,12 @@ package com.yanglao.sys.filter;
 import com.alibaba.fastjson.JSON;
 import com.yanglao.common.vo.constant.SystemConstant;
 import com.yanglao.config.JWTUtils;
-import com.yanglao.sys.entity.MyUser;
+import com.yanglao.sys.entity.SysUser;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -20,7 +18,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,13 +38,13 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
      */
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        MyUser MyUser = null;
+        SysUser SysUser = null;
         // 前后端分离的项目中我们提交的数据是JSON字符串。不是表单提交的
         try {
             String loginInfo = getRequestJSON(request);
-            MyUser = JSON.parseObject(loginInfo, MyUser.class);
+            SysUser = JSON.parseObject(loginInfo, SysUser.class);
             UsernamePasswordAuthenticationToken authenticationToken =
-                    new UsernamePasswordAuthenticationToken(MyUser.getUsername(), MyUser.getPassword());
+                    new UsernamePasswordAuthenticationToken(SysUser.getUserName(), SysUser.getUserPassword());
             return authenticationManager.authenticate(authenticationToken);
         } catch (IOException e) {
             e.printStackTrace();

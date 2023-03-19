@@ -8,17 +8,18 @@ import java.util.Collections;
 
 public class CodeGenerator {
     public static void main(String[] args) {
-        String url = "jdbc:mysql:///xdb";
+        String url = "jdbc:mysql:///yanglaoshequ";
         String username = "root";
         String password = "zx1234";
         String moduleName = "sys";
         String mapperLocation = "D:\\学习\\课设\\yanglao\\src\\main\\resources\\mapper\\"+moduleName;
-        String tables = "x_user,x_role,x_menu,x_user_role,x_role_menu";
+        String tables = "sys_user,see_doctor,request,physical_examination,make_appointment,doctor_advice" +
+                "dish,disease,complaint,activity,abnormal";
         FastAutoGenerator.create(url, username, password)
                 .globalConfig(builder -> {
                     builder.author("张旭") // 设置作者
                             //.enableSwagger() // 开启 swagger 模式
-                            //.fileOverride() // 覆盖已生成文件
+                            .fileOverride() // 覆盖已生成文件
                             .outputDir("D:\\学习\\课设\\yanglao\\src\\main\\java"); // 指定输出目录
                 })
                 .packageConfig(builder -> {
