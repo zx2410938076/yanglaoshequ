@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -36,15 +37,23 @@ public class MySpringSecurityConfiguration extends WebSecurityConfigurerAdapter 
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/doc.html", "/doc.html/**", "/webjars/**", "/v2/**", "/swagger-resources",
-                        "/swagger-resources/**", "/swagger-ui.html", "/swagger-ui.html/**").permitAll()
+                        "/swagger-resources/**", "/swagger-ui.html", "/swagger-ui.html/**","/webSocket/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                // 设置跨域的处理
+                // 设置跨域的处
                 .cors().configurationSource(corsConfigurationSource())
                 .and()
                 .addFilter(new TokenLoginFilter(super.authenticationManager())) // 绑定认证的接口
                 .addFilter(new TokenVerifyFilter(super.authenticationManager())) // 绑定校验的接口
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    }
+
+    //忽略websocket拦截
+    @Override
+    public void configure(WebSecurity webSecurity){
+        webSecurity.ignoring().antMatchers(
+                "/webSocket/**"
+        );
     }
 
     public static void main(String[] args) {

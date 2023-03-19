@@ -1,5 +1,4 @@
-package com.yanglao.sys.service.impl;
-
+package com.yanglao.sys.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +22,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 @ServerEndpoint("/webSocket/{uid}")
 @Component
 public class WebSocketServer {
-
     private static Logger log = LoggerFactory.getLogger(WebSocketServer.class);
 
     //静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。
