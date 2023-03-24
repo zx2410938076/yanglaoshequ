@@ -7,7 +7,6 @@ package com.yanglao.sys.service.impl;
 
 
 import com.yanglao.sys.entity.SysUser;
-
 import com.yanglao.sys.service.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;

@@ -1,8 +1,9 @@
 package com.yanglao.sys.controller;
 
+import com.yanglao.common.vo.Result;
 import com.yanglao.sys.service.WebSocketServer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,12 +25,13 @@ public class WebSocketController {
      //* @param pwd   密码（实际开发记得加密）
      * @throws IOException
      */
-    @PostMapping(value = "/onReceive")
-    public void onReceive(String id) throws IOException {
+    @GetMapping(value = "/onReceive")
+    public Result onReceive(String id) throws IOException {
         System.out.println(id);
 //        if(pwd.equals(myPwd)){  //密码校验一致（这里举例，实际开发还要有个密码加密的校验的），则进行群发
             webSocketServer.broadCastInfo(id);
 //        }
+        return Result.success();
     }
 
 }
