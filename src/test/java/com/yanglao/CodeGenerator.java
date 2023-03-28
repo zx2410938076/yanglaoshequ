@@ -13,8 +13,7 @@ public class CodeGenerator {
         String password = "zx1234";
         String moduleName = "sys";
         String mapperLocation = "D:\\学习\\课设\\yanglao\\src\\main\\resources\\mapper\\"+moduleName;
-        String tables = "sys_user,see_doctor,request,physical_examination,make_appointment,doctor_advice" +
-                "dish,disease,complaint,activity,abnormal";
+        String tables = "sys_user,see_doctor,request,physical_examination,make_appointment,doctor_advice,dish,disease,complaint,activity,abnormal";
         FastAutoGenerator.create(url, username, password)
                 .globalConfig(builder -> {
                     builder.author("张旭") // 设置作者

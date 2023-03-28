@@ -62,7 +62,10 @@ public class MakeAppointment implements Serializable {
      */
     private String doctorStatus;
 
+    //预约备注
     private String reservationRemarks;
+    //处理备注
+    private String processingRemarks;
 
     public Integer getAppointmentId() {
         return appointmentId;
@@ -134,6 +137,13 @@ public class MakeAppointment implements Serializable {
     public void setReservationRemarks(String reservationRemarks) {
         this.reservationRemarks = reservationRemarks;
     }
+    public String getProcessingRemarks() {
+        return processingRemarks;
+    }
+
+    public void setProcessingRemarks(String processingRemarks) {
+        this.processingRemarks = processingRemarks;
+    }
 
 
     @Override
@@ -148,7 +158,8 @@ public class MakeAppointment implements Serializable {
             ", processingTime=" + processingTime +
             ", userStatus=" + userStatus +
             ", doctorStatus=" + doctorStatus +
-            ", reservationRemarks=" + doctorStatus +
+            ", reservationRemarks=" + reservationRemarks +
+            ", processingRemarks=" + processingRemarks +
         "}";
     }
 }

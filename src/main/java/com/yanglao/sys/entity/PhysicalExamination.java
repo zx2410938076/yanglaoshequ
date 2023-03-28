@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author 张旭
@@ -31,6 +31,9 @@ public class PhysicalExamination implements Serializable {
      * 体检结果
      */
     private String physicalExaminationResult;
+
+//    体检数值
+    private String physicalExaminationValue;
 
     /**
      * 医生id
@@ -89,6 +92,13 @@ public class PhysicalExamination implements Serializable {
     public void setPhysicalExaminationId(Integer physicalExaminationId) {
         this.physicalExaminationId = physicalExaminationId;
     }
+    public String getPhysicalExaminationValue() {
+        return physicalExaminationValue;
+    }
+
+    public void setPhysicalExaminationValue(String physicalExaminationValue) {
+        this.physicalExaminationValue = physicalExaminationValue;
+    }
 
     @Override
     public String toString() {
@@ -99,6 +109,7 @@ public class PhysicalExamination implements Serializable {
             ", doctorId=" + doctorId +
             ", physicalExaminationTime=" + physicalExaminationTime +
             ", physicalExaminationId=" + physicalExaminationId +
+            ", physicalExaminationValue=" + physicalExaminationValue +
         "}";
     }
 }
