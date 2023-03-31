@@ -1,9 +1,12 @@
 package com.yanglao.sys.controller;
 
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yanglao.common.vo.Result;
+import com.yanglao.common.vo.constant.SystemConstant;
+import com.yanglao.config.JWTUtils;
 import com.yanglao.sys.entity.SysUser;
 import com.yanglao.sys.mapper.SysUserMapper;
 import com.yanglao.sys.service.ISysUserService;
@@ -30,6 +33,19 @@ public class SysUserController {
     public Result<List<SysUser>> getAllUser() {
         List<SysUser> list = userService.list();
         return Result.success(list, "查询成功");
+    }
+
+    @GetMapping("/getName")
+    public Result<SysUser> getUser(String Authorization) {
+        String token = Authorization.replace(SystemConstant.SYS_TOKEN_PREFIX, "");
+        DecodedJWT verify = JWTUtils.verify(token);
+        String userName = verify.getClaim("username").asString();
+
+        QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like("user_name", userName);
+        SysUser user = userMapper.selectOne( queryWrapper);
+
+        return Result.success(user, "查询成功");
     }
 
 

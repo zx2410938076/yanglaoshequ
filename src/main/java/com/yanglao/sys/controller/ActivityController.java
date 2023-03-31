@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
  *
  * @author 张旭
  * @since 2023-03-18
+ * 社区活动
  */
 @RestController
 @RequestMapping("/activity")

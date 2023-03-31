@@ -23,6 +23,7 @@ import java.util.List;
  *
  * @author 张旭
  * @since 2023-03-18
+ * 病史
  */
 @RestController
 @RequestMapping("/disease")

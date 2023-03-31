@@ -62,6 +62,8 @@ public class TokenVerifyFilter extends BasicAuthenticationFilter {
             // 走到这儿说明是正常
             // 获取当前登录的账号信息
             String userName = verify.getClaim("username").asString();
+
+            System.out.println("这是用户信息"+userName);
             // 放过请求 后续的控制器可能需要相关的权限
             List<GrantedAuthority> list = new ArrayList<>();
             list.add(new SimpleGrantedAuthority("ADMIN"));
