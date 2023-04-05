@@ -1,11 +1,15 @@
 package com.yanglao.sys.entity;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Comparator;
+import java.util.Objects;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author 张旭
@@ -14,7 +18,6 @@ import java.time.LocalDateTime;
 public class Abnormal implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
     /**
      * 异常数据id
      */
@@ -88,6 +91,7 @@ public class Abnormal implements Serializable {
         this.processingState = processingState;
     }
 
+
     @Override
     public String toString() {
         return "Abnormal{" +
@@ -99,4 +103,5 @@ public class Abnormal implements Serializable {
             ", processingState=" + processingState +
         "}";
     }
+
 }

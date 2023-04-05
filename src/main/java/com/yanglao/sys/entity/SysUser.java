@@ -90,6 +90,9 @@ public class SysUser implements Serializable {
      * 头像
      */
     private String picture;
+//关系
+    private String relationship;
+
 
     public Integer getUserId() {
         return userId;
@@ -182,6 +185,14 @@ public class SysUser implements Serializable {
     public void setPicture(String picture) {
         this.picture = picture;
     }
+    public String getRelationship() {
+        return relationship;
+    }
+
+    public void setRelationship(String relationship) {
+        this.relationship = relationship;
+    }
+
 
     @Override
     public String toString() {
@@ -199,6 +210,7 @@ public class SysUser implements Serializable {
             ", userRelativesPhone=" + userRelativesPhone +
             ", authority=" + authority +
             ", picture=" + picture +
+            ", relationship=" + relationship +
         "}";
     }
 }

@@ -11,6 +11,7 @@ import com.yanglao.sys.mapper.ComplaintMapper;
 import com.yanglao.sys.mapper.RequestMapper;
 import com.yanglao.sys.mapper.SysUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 
@@ -99,22 +100,7 @@ public class ComplaintController {
                 //System.out.println(page);
                 return Result.success(page, "查询成功");
 
-            }//普通用户 能看自己发的
-            if (state.equals("0")) {//为查未处理
-
-                QueryWrapper<Complaint> queryWrapper = new QueryWrapper<>();
-                queryWrapper.isNull("complaint_feedback")
-                        .eq("user_id",state);
-                complaintMapper.selectPage(page, queryWrapper);
-                //System.out.println(page);
-                return Result.success(page, "查询成功");
             }
-            QueryWrapper<Complaint> queryWrapper = new QueryWrapper<>();
-            queryWrapper.isNotNull("complaint_feedback")
-                    .eq("user_id",state);
-            complaintMapper.selectPage(page, queryWrapper);
-            //System.out.println(page);
-            return Result.success(page, "查询成功");
         }
 
         QueryWrapper<SysUser> userQueryWrapper = new QueryWrapper<>();
@@ -162,8 +148,8 @@ public class ComplaintController {
             return Result.success(page, "查询成功");
 
         }//为食堂权限
+        else if(authority.equals("canteen")){
             if (state.equals("0")) {//为查未处理
-
                 QueryWrapper<Complaint> queryWrapper = new QueryWrapper<>();
                 queryWrapper.isNull("complaint_feedback")
                         .eq("complaint_department","食堂")
@@ -179,6 +165,28 @@ public class ComplaintController {
             complaintMapper.selectPage(page, queryWrapper);
             //System.out.println(page);
             return Result.success(page, "查询成功");
+
+        }
+        if (state.equals("0")) {//为查未处理
+            QueryWrapper<Complaint> queryWrapper = new QueryWrapper<>();
+            queryWrapper.isNull("complaint_feedback")
+                    .eq("user_id", user);
+            complaintMapper.selectPage(page, queryWrapper);
+            //System.out.println(page);
+            return Result.success(page, "查询成功");
+        }else if(state.equals("1")){
+            QueryWrapper<Complaint> queryWrapper = new QueryWrapper<>();
+            queryWrapper.isNotNull("complaint_feedback")
+                    .eq("user_id", user);
+            complaintMapper.selectPage(page, queryWrapper);
+            //System.out.println(page);
+            return Result.success(page, "查询成功");
+        }
+        QueryWrapper<Complaint> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", user);
+        complaintMapper.selectPage(page, queryWrapper);
+        //System.out.println(page);
+        return Result.success(page, "查询成功");
 
     }
 

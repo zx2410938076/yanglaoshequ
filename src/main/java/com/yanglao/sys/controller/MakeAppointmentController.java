@@ -52,7 +52,6 @@ public class MakeAppointmentController {
             makeAppointmentMapper.selectPage(page, null);
             return Result.success(page, "查询成功");
         }
-
         QueryWrapper<SysUser> userQueryWrapper = new QueryWrapper<>();
         userQueryWrapper.like("user_name", target)
                 .or()
