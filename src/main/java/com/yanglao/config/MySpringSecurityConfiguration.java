@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 import java.util.Arrays;
 
@@ -52,9 +53,10 @@ public class MySpringSecurityConfiguration extends WebSecurityConfigurerAdapter 
     @Override
     public void configure(WebSecurity webSecurity){
         webSecurity.ignoring().antMatchers(
-                "/webSocket/**"
+                "/webSocket/**","/file/**","/pic/**"
         );
     }
+
 
     public static void main(String[] args) {
         String password = "";
@@ -78,5 +80,6 @@ public class MySpringSecurityConfiguration extends WebSecurityConfigurerAdapter 
         source.registerCorsConfiguration("/**",config);
         return source;
     }
+
 
 }

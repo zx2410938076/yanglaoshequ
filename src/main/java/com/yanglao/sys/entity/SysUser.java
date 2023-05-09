@@ -92,6 +92,10 @@ public class SysUser implements Serializable {
     private String picture;
 //关系
     private String relationship;
+    /**
+     * 手机号
+     */
+    private String gender;
 
 
     public Integer getUserId() {
@@ -193,24 +197,32 @@ public class SysUser implements Serializable {
         this.relationship = relationship;
     }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
 
     @Override
     public String toString() {
         return "SysUser{" +
-            "userId=" + userId +
-            ", userNumber=" + userNumber +
-            ", userPassword=" + userPassword +
-            ", userName=" + userName +
-            ", userPhone=" + userPhone +
-            ", userAddress=" + userAddress +
-            ", userHobby=" + userHobby +
-            ", userFood=" + userFood +
-            ", userForbiddenFood=" + userForbiddenFood +
-            ", userRelativesName=" + userRelativesName +
-            ", userRelativesPhone=" + userRelativesPhone +
-            ", authority=" + authority +
-            ", picture=" + picture +
-            ", relationship=" + relationship +
-        "}";
+                "userId=" + userId +
+                ", userNumber=" + userNumber +
+                ", userPassword='" + userPassword + '\'' +
+                ", userName='" + userName + '\'' +
+                ", userPhone='" + userPhone + '\'' +
+                ", userAddress='" + userAddress + '\'' +
+                ", userHobby='" + userHobby + '\'' +
+                ", userFood='" + userFood + '\'' +
+                ", userForbiddenFood='" + userForbiddenFood + '\'' +
+                ", userRelativesName='" + userRelativesName + '\'' +
+                ", userRelativesPhone='" + userRelativesPhone + '\'' +
+                ", authority='" + authority + '\'' +
+                ", picture='" + picture + '\'' +
+                ", relationship='" + relationship + '\'' +
+                ", gender='" + gender + '\'' +
+                '}';
     }
 }

@@ -45,13 +45,23 @@ public class MakeAppointmentController {
 
     //按需查找
     @GetMapping("/search")
-    public Result<Page<MakeAppointment>> Search(long current, long size, String target, String state) {
+    public Result<Page<MakeAppointment>> Search(long current, long size, String target, String state,String day) {
 
         Page<MakeAppointment> page = new Page<>(current, size);
-        if(target.equals("")) {
-            makeAppointmentMapper.selectPage(page, null);
+        QueryWrapper<MakeAppointment> queryWrapper = new QueryWrapper<>();
+
+        queryWrapper.eq("processing_result",state);//有无处理
+
+        if(!day.equals("")){
+            queryWrapper.like("appointment_time",day);
+        }
+
+
+        if(target.equals("")) {//无查询数据
+            makeAppointmentMapper.selectPage(page, queryWrapper);
             return Result.success(page, "查询成功");
         }
+
         QueryWrapper<SysUser> userQueryWrapper = new QueryWrapper<>();
         userQueryWrapper.like("user_name", target)
                 .or()
@@ -60,7 +70,7 @@ public class MakeAppointmentController {
         System.out.println(users);
         String user = String.valueOf(users.get(0).getUserId());
 
-        QueryWrapper<MakeAppointment> queryWrapper = new QueryWrapper<>();
+
         queryWrapper.eq("user_id", user);
         makeAppointmentMapper.selectPage(page, queryWrapper);
         //System.out.println(page);

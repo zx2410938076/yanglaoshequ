@@ -1,7 +1,9 @@
 package com.yanglao.sys.mapper;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yanglao.sys.entity.Complaint;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.yanglao.sys.entity.ComplaintDTO;
 
 /**
  * <p>
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface ComplaintMapper extends BaseMapper<Complaint> {
 
+    Page<Complaint> queryAllComplaint(Page<Complaint> page, String target, String state, String authority);
 }

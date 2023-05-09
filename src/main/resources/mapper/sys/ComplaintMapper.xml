@@ -2,4 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yanglao.sys.mapper.ComplaintMapper">
 
+    <select id="queryAllComplaint" resultType="com.yanglao.sys.entity.Complaint">
+        select complaint.*,
+        sys_user.user_name
+        from complaint,sys_user
+        <where>
+            complaint.user_id = sys_user.user_id
+            <if test="authority !=null and authority !=''">
+                and complaint_department like concat('%',#{authority},'%')
+            </if>
+            <if test="target != null and target !=''">
+                and complaint.user_id = #{target}
+            </if>
+            <if test="state == 0">
+                and complaint.complaint_feedback is null
+            </if>
+            <if test="state == 1">
+                and complaint.complaint_feedback is not null
+            </if>
+        </where>
+    </select>
 </mapper>

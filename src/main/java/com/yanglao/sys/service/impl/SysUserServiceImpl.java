@@ -24,7 +24,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public List<SysUser> queryByUserName(String username) {
         QueryWrapper<SysUser> wrapper = new QueryWrapper<>();
-        wrapper.eq(StringUtils.isNotBlank(username),"user_name",username);
+        wrapper.eq(StringUtils.isNotBlank(username),"user_name",username)
+                .or()
+                .eq(StringUtils.isNotBlank(username),"user_number",username);
         return this.baseMapper.selectList(wrapper);
     }
 }

@@ -1,6 +1,12 @@
 package com.yanglao.sys.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -30,11 +36,14 @@ public class MakeAppointment implements Serializable {
     /**
      * 预约时间
      */
-    private LocalDateTime appointmentTime;
+    private String appointmentTime;
 
     /**
      * 发起时间
      */
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime initiationTime;
 
     /**
@@ -81,11 +90,11 @@ public class MakeAppointment implements Serializable {
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
-    public LocalDateTime getAppointmentTime() {
+    public String getAppointmentTime() {
         return appointmentTime;
     }
 
-    public void setAppointmentTime(LocalDateTime appointmentTime) {
+    public void setAppointmentTime(String appointmentTime) {
         this.appointmentTime = appointmentTime;
     }
     public LocalDateTime getInitiationTime() {

@@ -26,10 +26,11 @@ public class WebSocketController {
      * @throws IOException
      */
     @GetMapping(value = "/onReceive")
-    public Result onReceive(String id) throws IOException {
+    public Result onReceive(String id,String type) throws IOException {
         System.out.println(id);
+        System.out.println(type);
 //        if(pwd.equals(myPwd)){  //密码校验一致（这里举例，实际开发还要有个密码加密的校验的），则进行群发
-            webSocketServer.broadCastInfo(id);
+            webSocketServer.broadCastInfo(id,type);
 //        }
         return Result.success();
     }

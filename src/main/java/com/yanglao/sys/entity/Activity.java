@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author 张旭
@@ -44,6 +44,32 @@ public class Activity implements Serializable {
      * 活动简介
      */
     private String activityProfile;
+
+    /**
+     * 活动图片
+     */
+    private String activityPic;
+
+    @Override
+    public String toString() {
+        return "Activity{" +
+                "activityId=" + activityId +
+                ", activityName='" + activityName + '\'' +
+                ", activityTime=" + activityTime +
+                ", activityLocation='" + activityLocation + '\'' +
+                ", responsiblePerson='" + responsiblePerson + '\'' +
+                ", activityProfile='" + activityProfile + '\'' +
+                ", activityPic='" + activityPic + '\'' +
+                '}';
+    }
+
+    public String getActivityPic() {
+        return activityPic;
+    }
+
+    public void setActivityPic(String activityPic) {
+        this.activityPic = activityPic;
+    }
 
     public Integer getActivityId() {
         return activityId;
@@ -88,15 +114,4 @@ public class Activity implements Serializable {
         this.activityProfile = activityProfile;
     }
 
-    @Override
-    public String toString() {
-        return "Activity{" +
-            "activityId=" + activityId +
-            ", activityName=" + activityName +
-            ", activityTime=" + activityTime +
-            ", activityLocation=" + activityLocation +
-            ", responsiblePerson=" + responsiblePerson +
-            ", activityProfile=" + activityProfile +
-        "}";
-    }
 }

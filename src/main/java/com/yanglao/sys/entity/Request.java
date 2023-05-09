@@ -1,16 +1,30 @@
 package com.yanglao.sys.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author 张旭
  * @since 2023-03-18
  */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Request implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -24,6 +38,12 @@ public class Request implements Serializable {
      * 用户id
      */
     private Integer userId;
+
+    /**
+     * 用户姓名
+     */
+    @TableField(exist = false)
+    private String userName;
 
     /**
      * 请求类型
@@ -43,60 +63,14 @@ public class Request implements Serializable {
     /**
      * 处理时间
      */
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime processingTime;
 
-    public Integer getRequestId() {
-        return requestId;
-    }
+    /**
+     * 处理人姓名
+     */
+    private String handlerName;
 
-    public void setRequestId(Integer requestId) {
-        this.requestId = requestId;
-    }
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-    public String getRequestType() {
-        return requestType;
-    }
-
-    public void setRequestType(String requestType) {
-        this.requestType = requestType;
-    }
-    public Integer getHandlerId() {
-        return handlerId;
-    }
-
-    public void setHandlerId(Integer handlerId) {
-        this.handlerId = handlerId;
-    }
-    public String getRemarks() {
-        return remarks;
-    }
-
-    public void setRemarks(String remarks) {
-        this.remarks = remarks;
-    }
-    public LocalDateTime getProcessingTime() {
-        return processingTime;
-    }
-
-    public void setProcessingTime(LocalDateTime processingTime) {
-        this.processingTime = processingTime;
-    }
-
-    @Override
-    public String toString() {
-        return "Request{" +
-            "requestId=" + requestId +
-            ", userId=" + userId +
-            ", requestType=" + requestType +
-            ", handlerId=" + handlerId +
-            ", remarks=" + remarks +
-            ", processingTime=" + processingTime +
-        "}";
-    }
 }

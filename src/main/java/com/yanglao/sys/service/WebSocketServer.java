@@ -37,6 +37,7 @@ public class WebSocketServer {
     public void onOpen(Session session, @PathParam(value = "uid") String uid){
         sessionPools.add(session);
         onlineNum.incrementAndGet();
+        System.out.println(sessionPools.toString());
         log.info(uid + "加入webSocket！当前人数为" + onlineNum);
     }
 
@@ -53,10 +54,11 @@ public class WebSocketServer {
     /**
      * 发送消息
      */
-    public void sendMessage(Session session, String message) throws IOException {
+    public void sendMessage(Session session, String message,String type) throws IOException {
         if(session != null){
             synchronized (session) {
                 session.getBasicRemote().sendText(message);
+                session.getBasicRemote().sendText(type);
             }
         }
     }
@@ -64,10 +66,11 @@ public class WebSocketServer {
     /**
      * 群发消息
      */
-    public void broadCastInfo(String message) throws IOException {
+    public void broadCastInfo(String message,String type) throws IOException {
         for (Session session : sessionPools) {
+            System.out.println(session);
             if(session.isOpen()){
-                sendMessage(session, message);
+                sendMessage(session,message,type);
             }
         }
     }
