@@ -44,7 +44,7 @@ public class DiseaseController {
 
     //按需查找
     @GetMapping("/search")
-    public Result<Page<Disease>> SerchRequest(long current, long size, String target, String state) {
+    public Result<Page<Disease>> SerchRequest(long current, long size, String target) {
 
         Page<Disease> page = new Page<>(current, size);
         if(target.equals("")) {

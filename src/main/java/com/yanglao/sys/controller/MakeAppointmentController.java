@@ -4,9 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yanglao.common.vo.Result;
+import com.yanglao.sys.entity.HospitalAppointment;
 import com.yanglao.sys.entity.MakeAppointment;
 import com.yanglao.sys.entity.Request;
 import com.yanglao.sys.entity.SysUser;
+import com.yanglao.sys.mapper.HospitalAppointmentMapper;
 import com.yanglao.sys.mapper.MakeAppointmentMapper;
 import com.yanglao.sys.mapper.RequestMapper;
 import com.yanglao.sys.mapper.SysUserMapper;
@@ -33,6 +35,9 @@ public class MakeAppointmentController {
     private MakeAppointmentMapper makeAppointmentMapper;
     @Autowired
     private SysUserMapper userMapper;
+
+    @Autowired
+    private HospitalAppointmentMapper hospitalAppointmentMapper;
 
     @GetMapping("/paging")
 
@@ -80,14 +85,30 @@ public class MakeAppointmentController {
     //@CrossOrigin
     //更新
     @PostMapping("/update")
-    public void Update(@RequestBody MakeAppointment MakeAppointment) {
+    public Result<?> Update(@RequestBody MakeAppointment MakeAppointment) {
         System.out.println(MakeAppointment);
         //修改条件
+
+
+        if(MakeAppointment.getProcessingResult().equals("1")){
+            QueryWrapper<HospitalAppointment> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("hospital_appointment_time",MakeAppointment.getAppointmentTime().split(",")[1]);
+            HospitalAppointment hospitalAppointment = hospitalAppointmentMapper.selectOne(queryWrapper);
+
+            QueryWrapper<MakeAppointment> queryMakeAppointmentWrapper = new QueryWrapper<>();
+            queryMakeAppointmentWrapper.eq("appointment_time",MakeAppointment.getAppointmentTime())
+            .eq("processing_result","1");
+            long AppointmentCount = makeAppointmentMapper.selectCount(queryMakeAppointmentWrapper);
+            if(AppointmentCount == hospitalAppointment.getHospitalAppointmentNumber()){
+                return Result.fail("预约已满","预约已满");
+            }
+        }
         UpdateWrapper<MakeAppointment> userUpdateWrapper = new UpdateWrapper<>();
         userUpdateWrapper.eq("appointment_id", MakeAppointment.getAppointmentId());
 
         int result = makeAppointmentMapper.update(MakeAppointment, userUpdateWrapper);
         System.out.println(result);
+        return Result.success("处理成功","处理成功");
     }
 
     @PostMapping("/insert")

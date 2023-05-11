@@ -1,5 +1,6 @@
 package com.yanglao.sys.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yanglao.sys.entity.Request;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IRequestService extends IService<Request> {
 
+    Page<Request> queryRequest(Page<Request> page, String target);
 }

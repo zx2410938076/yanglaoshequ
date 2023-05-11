@@ -1,5 +1,6 @@
 package com.yanglao.sys.mapper;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yanglao.sys.entity.PhysicalExamination;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface PhysicalExaminationMapper extends BaseMapper<PhysicalExamination> {
 
+    Page<PhysicalExamination> queryPhysicalExamination(Page<PhysicalExamination> page, String target);
 }

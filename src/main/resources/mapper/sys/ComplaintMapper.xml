@@ -12,7 +12,7 @@
                 and complaint_department like concat('%',#{authority},'%')
             </if>
             <if test="target != null and target !=''">
-                and complaint.user_id = #{target}
+                and (complaint.user_id = #{target} or sys_user.user_name = #{target})
             </if>
             <if test="state == 0">
                 and complaint.complaint_feedback is null

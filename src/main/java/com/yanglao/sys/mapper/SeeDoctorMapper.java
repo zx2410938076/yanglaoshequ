@@ -1,5 +1,6 @@
 package com.yanglao.sys.mapper;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yanglao.sys.entity.SeeDoctor;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface SeeDoctorMapper extends BaseMapper<SeeDoctor> {
 
+    Page<SeeDoctor> querySeeDoctor(Page<SeeDoctor> page, String target);
 }

@@ -62,13 +62,15 @@ public class ComplaintController {
             authority="";
         }
 
-        QueryWrapper<SysUser> userQueryWrapper = new QueryWrapper<>();
-        userQueryWrapper.like("user_name", target)
-                .or()
-                .eq("user_id", target);
-        List<SysUser> users = userMapper.selectList(userQueryWrapper);
-        System.out.println(users);
-        target = String.valueOf(users.get(0).getUserId());
+//        if(target !=""){
+//            QueryWrapper<SysUser> userQueryWrapper = new QueryWrapper<>();
+//            userQueryWrapper.like("user_name", target)
+//                    .or()
+//                    .eq("user_id", target);
+//            List<SysUser> users = userMapper.selectList(userQueryWrapper);
+//            System.out.println(users);
+//            target = String.valueOf(users.get(0).getUserId());
+//        }
 
         Page<Complaint> page = new Page<>(current, size);
         Page<Complaint> complaintPage = complaintService.queryAllComplaint(page,target,state,authority);

@@ -10,6 +10,7 @@ import com.yanglao.sys.entity.SysUser;
 import com.yanglao.sys.mapper.PhysicalExaminationMapper;
 import com.yanglao.sys.mapper.SeeDoctorMapper;
 import com.yanglao.sys.mapper.SysUserMapper;
+import com.yanglao.sys.service.ISeeDoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
@@ -33,6 +34,8 @@ public class SeeDoctorController {
     private SeeDoctorMapper seeDoctorMapper;
     @Autowired
     private SysUserMapper userMapper;
+    @Autowired
+    private ISeeDoctorService seeDoctorService;
 
     @GetMapping("/paging")
 
@@ -48,23 +51,26 @@ public class SeeDoctorController {
     public Result<Page<SeeDoctor>> SerchRequest(long current, long size, String target, String state) {
 
         Page<SeeDoctor> page = new Page<>(current, size);
-        if(target.equals("")) {
-            seeDoctorMapper.selectPage(page, null);
-            return Result.success(page, "查询成功");
-        }
+//        if(target.equals("")) {
+//            seeDoctorMapper.selectPage(page, null);
+//            return Result.success(page, "查询成功");
+//        }
+//
+//        QueryWrapper<SysUser> userQueryWrapper = new QueryWrapper<>();
+//        userQueryWrapper.like("user_name", target)
+//                .or()
+//                .eq("user_id", target);
+//        List<SysUser> users = userMapper.selectList(userQueryWrapper);
+//        System.out.println(users);
+//        String user = String.valueOf(users.get(0).getUserId());
+//
+//        QueryWrapper<SeeDoctor> queryWrapper = new QueryWrapper<>();
+//        queryWrapper.eq("user_id", user);
+//        seeDoctorMapper.selectPage(page, queryWrapper);
+//        //System.out.println(page);
+        Page<SeeDoctor> complaintPage = seeDoctorService.querySeeDoctor(page,target);
 
-        QueryWrapper<SysUser> userQueryWrapper = new QueryWrapper<>();
-        userQueryWrapper.like("user_name", target)
-                .or()
-                .eq("user_id", target);
-        List<SysUser> users = userMapper.selectList(userQueryWrapper);
-        System.out.println(users);
-        String user = String.valueOf(users.get(0).getUserId());
 
-        QueryWrapper<SeeDoctor> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_id", user);
-        seeDoctorMapper.selectPage(page, queryWrapper);
-        //System.out.println(page);
         return Result.success(page, "查询成功");
     }
 

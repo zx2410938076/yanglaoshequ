@@ -2,4 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yanglao.sys.mapper.RequestMapper">
 
+    <select id="queryRequest" resultType="com.yanglao.sys.entity.Request">
+        select request.*,
+        sys_user.user_name
+        from request,sys_user
+        <where>
+            request.user_id = sys_user.user_id
+            <if test="target != null and target !=''">
+                and (request.user_id = #{target} or sys_user.user_name = #{target})
+            </if>
+        </where>
+    </select>
 </mapper>

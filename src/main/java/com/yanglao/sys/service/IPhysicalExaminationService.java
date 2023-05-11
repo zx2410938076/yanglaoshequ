@@ -1,5 +1,6 @@
 package com.yanglao.sys.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yanglao.sys.entity.PhysicalExamination;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IPhysicalExaminationService extends IService<PhysicalExamination> {
 
+    Page<PhysicalExamination> queryPhysicalExamination(Page<PhysicalExamination> page, String target);
 }

@@ -1,5 +1,6 @@
 package com.yanglao.sys.mapper;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yanglao.sys.entity.Request;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
@@ -13,4 +14,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface RequestMapper extends BaseMapper<Request> {
 
+    Page<Request> queryRequest(Page<Request> page, String target);
 }

@@ -5,11 +5,13 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yanglao.common.vo.Result;
+import com.yanglao.sys.entity.Complaint;
 import com.yanglao.sys.entity.PhysicalExamination;
 import com.yanglao.sys.entity.Request;
 import com.yanglao.sys.entity.SysUser;
 import com.yanglao.sys.mapper.PhysicalExaminationMapper;
 import com.yanglao.sys.mapper.SysUserMapper;
+import com.yanglao.sys.service.IPhysicalExaminationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
@@ -33,6 +35,8 @@ public class PhysicalExaminationController {
     private PhysicalExaminationMapper physicalExaminationMapper;
     @Autowired
     private SysUserMapper userMapper;
+    @Autowired
+    private IPhysicalExaminationService physicalExaminationService;
 
     @GetMapping("/paging")
 
@@ -45,27 +49,23 @@ public class PhysicalExaminationController {
 
     //按需查找
     @GetMapping("/search")
-    public Result<Page<PhysicalExamination>> SerchRequest(long current, long size, String target, String state) {
+    public Result<Page<PhysicalExamination>> SerchRequest(long current, long size, String target) {
 
         Page<PhysicalExamination> page = new Page<>(current, size);
-        if(target.equals("")) {
-            physicalExaminationMapper.selectPage(page, null);
-            return Result.success(page, "查询成功");
-        }
 
-        QueryWrapper<SysUser> userQueryWrapper = new QueryWrapper<>();
-        userQueryWrapper.like("user_name", target)
-                .or()
-                .eq("user_id", target);
-        List<SysUser> users = userMapper.selectList(userQueryWrapper);
-        System.out.println(users);
-        String user = String.valueOf(users.get(0).getUserId());
+//        if(target !=""){
+//            QueryWrapper<SysUser> userQueryWrapper = new QueryWrapper<>();
+//            userQueryWrapper.like("user_name", target)
+//                    .or()
+//                    .eq("user_id", target);
+//            List<SysUser> users = userMapper.selectList(userQueryWrapper);
+//            System.out.println(users);
+//            target = String.valueOf(users.get(0).getUserId());
+//        }
+        Page<PhysicalExamination> complaintPage = physicalExaminationService.queryPhysicalExamination(page,target);
 
-        QueryWrapper<PhysicalExamination> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_id", user);
-        physicalExaminationMapper.selectPage(page, queryWrapper);
         //System.out.println(page);
-        return Result.success(page, "查询成功");
+        return Result.success(complaintPage, "查询成功");
     }
 
     //@CrossOrigin

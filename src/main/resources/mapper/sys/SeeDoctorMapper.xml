@@ -2,4 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yanglao.sys.mapper.SeeDoctorMapper">
 
+    <select id="querySeeDoctor" resultType="com.yanglao.sys.entity.SeeDoctor">
+        select see_doctor.*,
+        sys_user.user_name
+        from see_doctor,sys_user
+        <where>
+            see_doctor.user_id = sys_user.user_id
+            <if test="target != null and target !=''">
+                and (see_doctor.user_id = #{target} or sys_user.user_name = #{target})
+            </if>
+        </where>
+    </select>
 </mapper>

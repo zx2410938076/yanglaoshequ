@@ -4,10 +4,12 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yanglao.common.vo.Result;
+import com.yanglao.sys.entity.Complaint;
 import com.yanglao.sys.entity.Request;
 import com.yanglao.sys.entity.SysUser;
 import com.yanglao.sys.mapper.RequestMapper;
 import com.yanglao.sys.mapper.SysUserMapper;
+import com.yanglao.sys.service.IRequestService;
 import com.yanglao.sys.service.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +35,8 @@ public class RequestController {
     private RequestMapper requestMapper;
     @Autowired
     private SysUserMapper userMapper;
+    @Autowired
+    private IRequestService requestService;
 
     @GetMapping("/paging")
 
@@ -45,27 +49,24 @@ public class RequestController {
 
     //按需查找
     @GetMapping("/search")
-    public Result<Page<Request>> SerchRequest(long current, long size, String target, String state) {
+    public Result<Page<Request>> SerchRequest(long current, long size, String target) {
 
         Page<Request> page = new Page<>(current, size);
-        if(target.equals("")) {
-            requestMapper.selectPage(page, null);
-            return Result.success(page, "查询成功");
-        }
 
-        QueryWrapper<SysUser> userQueryWrapper = new QueryWrapper<>();
-        userQueryWrapper.like("user_name", target)
-                .or()
-                .eq("user_id", target);
-        List<SysUser> users = userMapper.selectList(userQueryWrapper);
-        System.out.println(users);
-        String user = String.valueOf(users.get(0).getUserId());
+//        if(target !=""){
+//            QueryWrapper<SysUser> userQueryWrapper = new QueryWrapper<>();
+//            userQueryWrapper.like("user_name", target)
+//                    .or()
+//                    .eq("user_id", target);
+//            List<SysUser> users = userMapper.selectList(userQueryWrapper);
+//            System.out.println(users);
+//            target = String.valueOf(users.get(0).getUserId());
+//        }
+        Page<Request> complaintPage = requestService.queryRequest(page,target);
 
-        QueryWrapper<Request> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("user_id", user);
-        requestMapper.selectPage(page, queryWrapper);
+
         //System.out.println(page);
-        return Result.success(page, "查询成功");
+        return Result.success(complaintPage, "查询成功");
     }
 
     //@CrossOrigin

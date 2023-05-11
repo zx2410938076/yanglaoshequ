@@ -2,4 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yanglao.sys.mapper.PhysicalExaminationMapper">
 
+    <select id="queryPhysicalExamination" resultType="com.yanglao.sys.entity.PhysicalExamination">
+        select physical_examination.*,
+        sys_user.user_name
+        from physical_examination,sys_user
+        <where>
+            physical_examination.user_id = sys_user.user_id
+            <if test="target != null and target !=''">
+                and (physical_examination.user_id = #{target} or sys_user.user_name = #{target})
+            </if>
+        </where>
+    </select>
 </mapper>
