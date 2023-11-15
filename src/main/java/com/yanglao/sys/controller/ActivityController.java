@@ -1,5 +1,6 @@
 package com.yanglao.sys.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yanglao.common.vo.Result;
@@ -38,6 +39,19 @@ public class ActivityController {
         return Result.success(page, "查询成功");
     }
 
+    //按需查找
+    @GetMapping("/search")
+    public Result<Page<Activity>> SerchUser1(long current, long size) {
+        Page<Activity> page = new Page<>(current, size);
+
+        QueryWrapper<Activity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("recommend", "true")
+        .or()
+        .eq("recommend", "1");
+        activityMapper.selectPage(page, queryWrapper);
+        //System.out.println(page);
+        return Result.success(page, "查询成功");
+    }
 
     //更新
     @PostMapping("/update")

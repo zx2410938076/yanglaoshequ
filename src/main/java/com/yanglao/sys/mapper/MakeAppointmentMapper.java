@@ -1,7 +1,9 @@
 package com.yanglao.sys.mapper;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yanglao.sys.entity.MakeAppointment;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.yanglao.sys.entity.Request;
 
 /**
  * <p>
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  */
 public interface MakeAppointmentMapper extends BaseMapper<MakeAppointment> {
 
+    Page<MakeAppointment> queryAppointment(Page<MakeAppointment> page, String target, String state, String day);
 }

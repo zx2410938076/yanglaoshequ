@@ -59,7 +59,7 @@ public class MySpringSecurityConfiguration extends WebSecurityConfigurerAdapter 
 
 
     public static void main(String[] args) {
-        String password = "";
+        String password = "123456";
         System.out.println(new BCryptPasswordEncoder().encode(password).toString());
         System.out.println(new BCryptPasswordEncoder().encode(password).toString());
         System.out.println(new BCryptPasswordEncoder().encode(password).toString());

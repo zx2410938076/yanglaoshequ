@@ -4,14 +4,13 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yanglao.common.vo.Result;
-import com.yanglao.sys.entity.HospitalAppointment;
-import com.yanglao.sys.entity.MakeAppointment;
-import com.yanglao.sys.entity.Request;
-import com.yanglao.sys.entity.SysUser;
+import com.yanglao.sys.entity.*;
 import com.yanglao.sys.mapper.HospitalAppointmentMapper;
 import com.yanglao.sys.mapper.MakeAppointmentMapper;
 import com.yanglao.sys.mapper.RequestMapper;
 import com.yanglao.sys.mapper.SysUserMapper;
+import com.yanglao.sys.service.IMakeAppointmentService;
+import com.yanglao.sys.service.IRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
@@ -39,6 +38,9 @@ public class MakeAppointmentController {
     @Autowired
     private HospitalAppointmentMapper hospitalAppointmentMapper;
 
+    @Autowired
+    private IMakeAppointmentService makeAppointmentService;
+
     @GetMapping("/paging")
 
     public Result<Page<MakeAppointment>> getAll(long current, long size) {
@@ -47,39 +49,52 @@ public class MakeAppointmentController {
         makeAppointmentMapper.selectPage(page, null);
         return Result.success(page, "查询成功");
     }
+    @GetMapping("/userSearch")
+
+    public Result<Page<MakeAppointment>> getUserSearch(long current, long size,String target) {
+        Page<MakeAppointment> page = new Page<>(current, size);
+        QueryWrapper<MakeAppointment> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", target);
+        makeAppointmentMapper.selectPage(page, queryWrapper);
+        return Result.success(page, "查询成功");
+    }
 
     //按需查找
     @GetMapping("/search")
     public Result<Page<MakeAppointment>> Search(long current, long size, String target, String state,String day) {
 
         Page<MakeAppointment> page = new Page<>(current, size);
-        QueryWrapper<MakeAppointment> queryWrapper = new QueryWrapper<>();
 
-        queryWrapper.eq("processing_result",state);//有无处理
+        Page<MakeAppointment> AppointmentPage = makeAppointmentService.queryAppointment(page,state,target,day);
 
-        if(!day.equals("")){
-            queryWrapper.like("appointment_time",day);
-        }
-
-
-        if(target.equals("")) {//无查询数据
-            makeAppointmentMapper.selectPage(page, queryWrapper);
-            return Result.success(page, "查询成功");
-        }
-
-        QueryWrapper<SysUser> userQueryWrapper = new QueryWrapper<>();
-        userQueryWrapper.like("user_name", target)
-                .or()
-                .eq("user_id", target);
-        List<SysUser> users = userMapper.selectList(userQueryWrapper);
-        System.out.println(users);
-        String user = String.valueOf(users.get(0).getUserId());
-
-
-        queryWrapper.eq("user_id", user);
-        makeAppointmentMapper.selectPage(page, queryWrapper);
-        //System.out.println(page);
-        return Result.success(page, "查询成功");
+//        QueryWrapper<MakeAppointment> queryWrapper = new QueryWrapper<>();
+//
+//        queryWrapper.eq("processing_result",state);//有无处理
+//
+//        if(!day.equals("")){
+//            queryWrapper.like("appointment_time",day);
+//        }
+//
+//
+//        if(target.equals("")) {//无查询数据
+//            makeAppointmentMapper.selectPage(page, queryWrapper);
+//            return Result.success(page, "查询成功");
+//        }
+//
+//        QueryWrapper<SysUser> userQueryWrapper = new QueryWrapper<>();
+//        userQueryWrapper.like("user_name", target)
+//                .or()
+//                .eq("user_id", target);
+//        List<SysUser> users = userMapper.selectList(userQueryWrapper);
+//        System.out.println(users);
+//        String user = String.valueOf(users.get(0).getUserId());
+//
+//
+//        queryWrapper.eq("user_id", user)
+//                    .orderByDesc("appointment_id");
+//        makeAppointmentMapper.selectPage(page, queryWrapper);
+//        //System.out.println(page);
+        return Result.success(AppointmentPage, "查询成功");
     }
 
     //@CrossOrigin

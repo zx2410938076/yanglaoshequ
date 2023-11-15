@@ -116,7 +116,7 @@ public class TokenLoginFilter extends UsernamePasswordAuthenticationFilter {
         PrintWriter writer = response.getWriter();
         Map<String,Object> resultMap = new HashMap<>();
         resultMap.put("code", HttpServletResponse.SC_UNAUTHORIZED);
-        resultMap.put("msg","用户名或密码错误!");
+        resultMap.put("msg","密码错误!");
         writer.write(JSON.toJSONString(resultMap));
         writer.flush();
         writer.close();

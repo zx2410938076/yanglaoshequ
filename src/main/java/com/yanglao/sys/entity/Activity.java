@@ -1,5 +1,14 @@
 package com.yanglao.sys.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -11,6 +20,9 @@ import java.time.LocalDateTime;
  * @author 张旭
  * @since 2023-03-18
  */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Activity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -28,6 +40,9 @@ public class Activity implements Serializable {
     /**
      * 活动时间
      */
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime activityTime;
 
     /**
@@ -50,68 +65,8 @@ public class Activity implements Serializable {
      */
     private String activityPic;
 
-    @Override
-    public String toString() {
-        return "Activity{" +
-                "activityId=" + activityId +
-                ", activityName='" + activityName + '\'' +
-                ", activityTime=" + activityTime +
-                ", activityLocation='" + activityLocation + '\'' +
-                ", responsiblePerson='" + responsiblePerson + '\'' +
-                ", activityProfile='" + activityProfile + '\'' +
-                ", activityPic='" + activityPic + '\'' +
-                '}';
-    }
-
-    public String getActivityPic() {
-        return activityPic;
-    }
-
-    public void setActivityPic(String activityPic) {
-        this.activityPic = activityPic;
-    }
-
-    public Integer getActivityId() {
-        return activityId;
-    }
-
-    public void setActivityId(Integer activityId) {
-        this.activityId = activityId;
-    }
-    public String getActivityName() {
-        return activityName;
-    }
-
-    public void setActivityName(String activityName) {
-        this.activityName = activityName;
-    }
-    public LocalDateTime getActivityTime() {
-        return activityTime;
-    }
-
-    public void setActivityTime(LocalDateTime activityTime) {
-        this.activityTime = activityTime;
-    }
-    public String getActivityLocation() {
-        return activityLocation;
-    }
-
-    public void setActivityLocation(String activityLocation) {
-        this.activityLocation = activityLocation;
-    }
-    public String getResponsiblePerson() {
-        return responsiblePerson;
-    }
-
-    public void setResponsiblePerson(String responsiblePerson) {
-        this.responsiblePerson = responsiblePerson;
-    }
-    public String getActivityProfile() {
-        return activityProfile;
-    }
-
-    public void setActivityProfile(String activityProfile) {
-        this.activityProfile = activityProfile;
-    }
-
+    /**
+     * 活动推荐
+     */
+    private boolean recommend;
 }

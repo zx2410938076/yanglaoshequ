@@ -3,6 +3,7 @@ package com.yanglao.sys.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yanglao.common.vo.Result;
 import com.yanglao.sys.entity.Disease;
 import com.yanglao.sys.entity.DoctorAdvice;
@@ -14,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * <p>
@@ -96,5 +97,25 @@ public class DiseaseController {
 
         int result = diseaseMapper.delete(UpdateWrapper);
         System.out.println(result);
+    }
+
+    @GetMapping("/count")
+    public Result<List<Map<String, Object>>> getCount() {
+        List<Map<String, Object>> countList = diseaseMapper.countDisease();
+        Map<String, Integer> result = new HashMap<>();
+        for (Map<String, Object> count : countList) {
+            String disease = (String) count.get("disease");
+            Integer countNum = ((Long) count.get("count")).intValue();
+            result.put(disease, countNum);
+        }
+        // 将数据源转换为 data 对象
+        List<Map<String, Object>> data = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : result.entrySet()) {
+            Map<String, Object> item = new HashMap<>();
+            item.put("disease", entry.getKey());
+            item.put("count", entry.getValue());
+            data.add(item);
+        }
+        return Result.success(data, "查询成功");
     }
 }

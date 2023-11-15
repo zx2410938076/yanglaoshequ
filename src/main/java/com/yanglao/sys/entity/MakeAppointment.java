@@ -1,11 +1,15 @@
 package com.yanglao.sys.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -19,6 +23,9 @@ import java.time.LocalDateTime;
  * @since 2023-03-18
  */
 @TableName("make_appointment")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class MakeAppointment implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -32,6 +39,12 @@ public class MakeAppointment implements Serializable {
      * 用户id
      */
     private Integer userId;
+
+    /**
+     * 用户姓名
+     */
+    @TableField(exist = false)
+    private String userName;
 
     /**
      * 预约时间
@@ -52,6 +65,11 @@ public class MakeAppointment implements Serializable {
     private Integer doctorId;
 
     /**
+     * 医生id
+     */
+    private String doctorName;
+
+    /**
      * 处理结果
      */
     private String processingResult;
@@ -59,6 +77,9 @@ public class MakeAppointment implements Serializable {
     /**
      * 处理时间
      */
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime processingTime;
 
     /**
@@ -75,100 +96,4 @@ public class MakeAppointment implements Serializable {
     private String reservationRemarks;
     //处理备注
     private String processingRemarks;
-
-    public Integer getAppointmentId() {
-        return appointmentId;
-    }
-
-    public void setAppointmentId(Integer appointmentId) {
-        this.appointmentId = appointmentId;
-    }
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-    public String getAppointmentTime() {
-        return appointmentTime;
-    }
-
-    public void setAppointmentTime(String appointmentTime) {
-        this.appointmentTime = appointmentTime;
-    }
-    public LocalDateTime getInitiationTime() {
-        return initiationTime;
-    }
-
-    public void setInitiationTime(LocalDateTime initiationTime) {
-        this.initiationTime = initiationTime;
-    }
-    public Integer getDoctorId() {
-        return doctorId;
-    }
-
-    public void setDoctorId(Integer doctorId) {
-        this.doctorId = doctorId;
-    }
-    public String getProcessingResult() {
-        return processingResult;
-    }
-
-    public void setProcessingResult(String processingResult) {
-        this.processingResult = processingResult;
-    }
-    public LocalDateTime getProcessingTime() {
-        return processingTime;
-    }
-
-    public void setProcessingTime(LocalDateTime processingTime) {
-        this.processingTime = processingTime;
-    }
-    public String getUserStatus() {
-        return userStatus;
-    }
-
-    public void setUserStatus(String userStatus) {
-        this.userStatus = userStatus;
-    }
-    public String getDoctorStatus() {
-        return doctorStatus;
-    }
-
-    public void setDoctorStatus(String doctorStatus) {
-        this.doctorStatus = doctorStatus;
-    }
-    public String getReservationRemarks() {
-        return reservationRemarks;
-    }
-
-    public void setReservationRemarks(String reservationRemarks) {
-        this.reservationRemarks = reservationRemarks;
-    }
-    public String getProcessingRemarks() {
-        return processingRemarks;
-    }
-
-    public void setProcessingRemarks(String processingRemarks) {
-        this.processingRemarks = processingRemarks;
-    }
-
-
-    @Override
-    public String toString() {
-        return "MakeAppointment{" +
-            "appointmentId=" + appointmentId +
-            ", userId=" + userId +
-            ", appointmentTime=" + appointmentTime +
-            ", initiationTime=" + initiationTime +
-            ", doctorId=" + doctorId +
-            ", processingResult=" + processingResult +
-            ", processingTime=" + processingTime +
-            ", userStatus=" + userStatus +
-            ", doctorStatus=" + doctorStatus +
-            ", reservationRemarks=" + reservationRemarks +
-            ", processingRemarks=" + processingRemarks +
-        "}";
-    }
 }

@@ -21,5 +21,6 @@
                 and complaint.complaint_feedback is not null
             </if>
         </where>
+        order by complaint_id desc
     </select>
 </mapper>

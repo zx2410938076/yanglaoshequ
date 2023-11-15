@@ -11,6 +11,7 @@ import com.yanglao.sys.entity.SysUser;
 import com.yanglao.sys.mapper.SysUserMapper;
 import com.yanglao.sys.service.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -87,15 +88,37 @@ public class SysUserController {
         UpdateWrapper<SysUser> userUpdateWrapper = new UpdateWrapper<>();
         userUpdateWrapper.eq("user_id", SysUser.getUserId());
 
+        SysUser.setUserPassword(new BCryptPasswordEncoder().encode(SysUser.getUserPassword()).toString());
         int result = userMapper.update(SysUser, userUpdateWrapper);
         System.out.println(result);
     }
 
     @PostMapping("/insert")
-    public void InsertUser(@RequestBody SysUser SysUser) {
+    public Result<?> InsertUser(@RequestBody SysUser SysUser) {
         System.out.println(SysUser);
+
+        QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like("user_number", SysUser.getUserNumber());
+        System.out.println(userMapper.selectCount(queryWrapper));
+
+        if(userMapper.selectCount(queryWrapper) != 0){
+            return Result.fail("账号重复");
+        }
+
+
+        if(SysUser.getAuthority().equals("社区管理员")){
+            SysUser.setAuthority("community");
+        }else if(SysUser.getAuthority().equals("医院管理员")){
+            SysUser.setAuthority("doctor");
+        }else if(SysUser.getAuthority().equals("食堂管理员")){
+            SysUser.setAuthority("canteen");
+        }else{
+            SysUser.setAuthority("user");
+        }
+        SysUser.setUserPassword(new BCryptPasswordEncoder().encode(SysUser.getUserPassword()).toString());
         int result = userMapper.insert(SysUser);
         System.out.println(result);
+       return Result.success("添加成功");
     }
 
     @GetMapping("/delete")

@@ -51,7 +51,7 @@ public class FileController {
                     String newName = uuid + oldName;
                     System.out.println("[新文件名]：" + newName);
                     if (sb.toString().equals("")){
-                        sb.append("http://localhost:9999/pic/"+newName);
+                        sb.append("http://192.168.43.182:9999/pic/"+newName);
                         System.out.println("[图片访问路径]：" + sb.toString());
                     }else {
                         sb.append("|" + newName);
